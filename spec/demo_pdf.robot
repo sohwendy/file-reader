@@ -1,15 +1,16 @@
 *** Settings ***
 Documentation     Example for file reader
 Library           Collections
-Library           PdfLibrary.py
+Library           ../src/PdfLibrary.py
 
 *** Variables ***
-
+${PDF}              ${CURDIR}/../data/resume.pdf
+${ENCRYPTED_PDF}    ${CURDIR}/../data/encrypted_resume.pdf
 
 *** Test Cases ***
 
 Verify that library can read email
-  ${actual_text}=    read_page    ${CURDIR}/data/resume.pdf
+  ${actual_text}=    read_page    ${PDF}
 
   ${expected_text}=    Set Variable    yourname@gmail.com
 
@@ -18,7 +19,7 @@ Verify that library can read email
 
 
 Verify that library can read from a page
-  ${actual_text}=    read_page    ${CURDIR}/data/resume.pdf    2
+  ${actual_text}=    read_page    ${PDF}    2
 
   ${expected_text}=    Set Variable    Studied abroad for 6 weeks in Costa Rica
 
@@ -27,7 +28,7 @@ Verify that library can read from a page
 
 
 Verify that library can read from an encrypted page
-  ${actual_text}=    read_page    ${CURDIR}/data/encrypted_resume.pdf    2    key
+  ${actual_text}=    read_page    ${ENCRYPTED_PDF}    2    key
 
   ${expected_text}=    Set Variable    Studied abroad for 6 weeks in Costa Rica
 

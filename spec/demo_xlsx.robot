@@ -1,9 +1,13 @@
 *** Settings ***
 Documentation     Example for xlsx reader
 Library           Collections
-Library           XlsxLibrary.py
+Library           ../src/XlsxLibrary.py
 
 *** Variables ***
+${FRUIT_XLSX}    ${CURDIR}/../data/fruit.xlsx
+${EMPTY_XLSX}    ${CURDIR}/../data/empty.xlsx
+
+
 &{HEADER}   no=No    fruit=Fruit   price=Price    country=Country
 &{APPLE_RECORD}    no=1    fruit=Apple    price=10.00    country=Japan
 &{ORANGE_RECORD}   country=America    price=2.00    fruit=Orange    no=2
@@ -20,7 +24,7 @@ Library           XlsxLibrary.py
 *** Test Cases ***
 Verify that library can read all records in xlsx
   ${dictionary}=    Create Dictionary    A=no    B=fruit    C=country    D=price
-  ${actual_record}=    read_multiple_records    ${CURDIR}/data/fruit.xlsx    ${dictionary}
+  ${actual_record}=    read_multiple_records    ${FRUIT_XLSX}    ${dictionary}
 
   ${expected_record}=    Create List    ${APPLE_RECORD}
   Append To List    ${expected_record}    ${ORANGE_RECORD}
@@ -32,7 +36,7 @@ Verify that library can read all records in xlsx
 
 Verify that library can read all records and header in xlsx
   ${dictionary}=    Create Dictionary    A=no    B=fruit    C=country    D=price
-  ${actual_record}=    read_multiple_records    ${CURDIR}/data/fruit.xlsx    ${dictionary}    ${FALSE}
+  ${actual_record}=    read_multiple_records    ${FRUIT_XLSX}    ${dictionary}    ${FALSE}
 
   ${expected_record}=    Create List    ${HEADER}
   Append To List    ${expected_record}    ${APPLE_RECORD}
@@ -45,7 +49,7 @@ Verify that library can read all records and header in xlsx
 
 Verify that library can read the first record in xlsx
   ${dictionary}=    Create Dictionary    A=no    B=fruit    C=country    D=price
-  ${actual_record}=    read_single_record    ${CURDIR}/data/fruit.xlsx    ${dictionary}
+  ${actual_record}=    read_single_record    ${FRUIT_XLSX}    ${dictionary}
 
   ${expected_record}=    Create List    ${HEADER}
 
@@ -55,7 +59,7 @@ Verify that library can read the first record in xlsx
 
 Verify that library can read any record in xlsx
   ${dictionary}=    Create Dictionary    A=no    B=fruit    C=country    D=price
-  ${actual_record}=    read_single_record    ${CURDIR}/data/fruit.xlsx    ${dictionary}    3
+  ${actual_record}=    read_single_record    ${FRUIT_XLSX}    ${dictionary}    3
 
   ${expected_record}=    Create List    ${ORANGE_RECORD}
 
@@ -65,7 +69,7 @@ Verify that library can read any record in xlsx
 
 Verify that library can read multiple records from xlsx
   ${dictionary}=    Create Dictionary    B=fruit    D=price
-  ${actual_record}=    read_multiple_records    ${CURDIR}/data/fruit.xlsx    ${dictionary}
+  ${actual_record}=    read_multiple_records    ${FRUIT_XLSX}    ${dictionary}
 
   ${expected_record}=    Create List    ${APPLE_RECORD_SHORT}
   Append To List    ${expected_record}    ${ORANGE_RECORD_SHORT}
@@ -77,7 +81,7 @@ Verify that library can read multiple records from xlsx
 
 Verify that library can read single row from xlsx
   ${dictionary}=    Create Dictionary    A=no    B=fruit    C=country    D=price
-  ${actual_list}=    read_single_row    ${CURDIR}/data/fruit.xlsx    ${dictionary}    4
+  ${actual_list}=    read_single_row    ${FRUIT_XLSX}    ${dictionary}    4
 
   Set Test Variable    ${expected_list}    ${DURIAN_ROW}
 
@@ -87,7 +91,7 @@ Verify that library can read single row from xlsx
 
 Verify that library returns empty list from empty xlxs for read_multiple_records
   ${dictionary}=    Create Dictionary    B=fruit    D=price
-  ${actual_record}=    read_multiple_records    ${CURDIR}/data/empty.xlsx    ${dictionary}
+  ${actual_record}=    read_multiple_records    ${EMPTY_XLSX}    ${dictionary}
 
   ${expected_record}=    Create List
 
@@ -97,7 +101,7 @@ Verify that library returns empty list from empty xlxs for read_multiple_records
 
 Verify that library returns empty list from empty xlxs for read_single_record
   ${dictionary}=    Create Dictionary    B=fruit    D=price
-  ${actual_record}=    read_single_record    ${CURDIR}/data/empty.xlsx    ${dictionary}    3    ${FALSE}
+  ${actual_record}=    read_single_record    ${EMPTY_XLSX}    ${dictionary}    3    ${FALSE}
 
   ${expected_record}=    Create List
 

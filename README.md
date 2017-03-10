@@ -14,8 +14,13 @@ $ pip install PyPDF2
 ## Usage
 Refer to demo.txt
 
-## Documentation
 
+## Run the test
+```
+$ pybot spec/*.robot
+````
+
+## Documentation
 
 ### Excel -- XlsxLibrary
 
